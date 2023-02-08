@@ -1,76 +1,102 @@
 const d = document,
   $display = d.getElementById("display"),
-  $numeros = d.querySelectorAll(".number");
+  $numbers = d.querySelectorAll(".countable-number"),
+  $signs = d.querySelectorAll('.signs'),
+  $result = d.getElementById('resultado');
+  
+let firstNumber, currentNumber;
 
-let primerResultado, segundoResultado, operador;
+const sum = (a, b) => {
+  return Number(a) + Number(b);
+} 
 
-const validarTermino = (signo) => {
-  if (primerResultado) {
-    $display.textContent = "Math error";
-    segundoResultado = 5;
-  } else {
-    primerResultado = Number($display.textContent);
-    operador = signo;
-    $display.textContent = "";
+const subtract = (a, b) => {
+  return Number(a) - Number(b);
+} 
+
+const multiply = (a, b) => {
+  return Number(a) * Number(b);
+} 
+
+const split = (a, b) => {
+  return Number(a) / Number(b);
+} 
+
+const defineOperation = (operation) => {
+  
+  $signs.forEach(sign => {
+    if (sign.id === operation) {
+      return $display.textContent = `${firstNumber} ${operation} `;
+    }
+  })
+  
+}
+
+const calculateResult = () => {
+
+  let result
+  
+  if ($display.textContent.includes('+')) {
+    result = sum(firstNumber, currentNumber);
   }
-};
-
-const calcularResultado = () => {
-  segundoResultado = Number($display.textContent);
-  let resultadoFinal;
-  if (operador === "suma") {
-    resultadoFinal = primerResultado + segundoResultado;
+  
+  if ($display.textContent.includes('-')) {
+    result = subtract(firstNumber, currentNumber);
   }
-  if (operador === "resta") {
-    resultadoFinal = primerResultado - segundoResultado;
+  
+  if ($display.textContent.includes('x')) {
+    result = multiply(firstNumber, currentNumber);
   }
-  if (operador === "multiplicacion") {
-    resultadoFinal = primerResultado * segundoResultado;
+  
+  if ($display.textContent.includes('%')) {
+    result = split(firstNumber, currentNumber);
   }
-  if (operador === "division") {
-    resultadoFinal = primerResultado / segundoResultado;
-  }
+  
+  firstNumber = '';
+  currentNumber = ''
+  return $display.textContent = result;
+  
+}
 
-  $display.textContent = resultadoFinal;
-};
-
-d.addEventListener("click", (e) => {
-  let numeroActual;
-
-  if (e.target.matches(".number")) {
-    if (segundoResultado) {
-      operador = "";
-      primerResultado = "";
-      segundoResultado = "";
-      $display.textContent = "";
+$numbers.forEach(number => {
+  number.addEventListener('click', () => {
+  
+    //Falta definir numeros con decimales
+    // if (number.id === '.') {
+    //   firstNumber += '.';
+    //   $display.textContent = firstNumber;
+    // }
+    
+    if (firstNumber) {
+    
+      currentNumber = number.id;
+      $display.textContent += currentNumber;
+      
+    } else {
+    
+      firstNumber = number.id;
+      $display.textContent = firstNumber;
+      
     }
 
-    $numeros.forEach((element) => {
-      if (e.target.id === element.id && e.target.matches("#suma"))
-        return validarTermino("suma");
+  })
+})
 
-      if (e.target.id === element.id && e.target.matches("#resta"))
-        return validarTermino("resta");
+$signs.forEach(sign => {
+  sign.addEventListener('click', () => {
+    defineOperation(sign.id);
+  })
+})
 
-      if (e.target.id === element.id && e.target.matches("#division"))
-        return validarTermino("division");
+$result.addEventListener('click', () => {
+  calculateResult();
+})
 
-      if (e.target.id === element.id && e.target.matches("#multiplicacion"))
-        return validarTermino("multiplicacion");
+module.exports = {
+  sum,
+  subtract,
+  multiply,
+  split,
+  defineOperation,
+}
 
-      if (
-        e.target.id === element.id &&
-        e.target.matches("#resultado") &&
-        primerResultado
-      )
-        return calcularResultado();
-
-      if (e.target.id === element.id && element.id !== "resultado") {
-        numeroActual = element.id;
-        $display.textContent
-          ? ($display.textContent += numeroActual)
-          : ($display.textContent = numeroActual);
-      }
-    });
-  }
-});

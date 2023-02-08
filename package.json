@@ -1,0 +1,29 @@
+{
+  "name": "calculadora",
+  "version": "1.0.0",
+  "description": "Calculadora hecha con HTML, CSS y JS. Realiza las cuatro operaciones matemáticas básicas:\r * Suma\r * Resta\r * Multiplicación\r * División",
+  "main": "calculos.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eliman-C5/Calculadora.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eliman-C5/Calculadora/issues"
+  },
+  "homepage": "https://github.com/Eliman-C5/Calculadora#readme",
+  "devDependencies": {
+    "jest": "^29.4.2"
+  },
+  "dependencies": {
+    "jest-environment-jsdom": "^29.4.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
